@@ -25,13 +25,13 @@ Opsview external Ansible inventory script
       - https://docs.opsview.com/doku.php?id=opsview-core:restapi
 
  SYNTAX:
-    usage: opsview-inventory.py [-h]
-                                [--template-id TEMPLATE_ID]
-                                [--active-check-name ACTIVE_CHECK_NAME]
-                                [--passive-check-name PASSIVE_CHECK_NAME]
-                                [--user USER]
-                                [--json] [--ssh] [--list]
-                                [--host HOST]
+    usage: opsview-ansible-inventory.py [-h]
+                                        [--template-id TEMPLATE_ID]
+                                        [--active-check-name ACTIVE_CHECK_NAME]
+                                        [--passive-check-name PASSIVE_CHECK_NAME]
+                                        [--user USER]
+                                        [--json] [--ssh] [--list]
+                                        [--host HOST]
 
     optional arguments:
       -h, --help                show this help message and exit
@@ -41,7 +41,7 @@ Opsview external Ansible inventory script
                                 Name of active "Service Check" as in your Opsview. Default is "SSH".
       --passive-check-name PASSIVE_CHECK_NAME
                                 Name of passive "Service Check" as in your Opsview. Default is "SSH-Non-Active".
-      --user USER               Name of SSH user that will be printed in output. Default is "root".
+      --user USER               Name of SSH user that will be printed as output. Default is "root".
       --json                    Print output as JSON format.
       --ssh                     Print output as OpenSSH config file format.
       --list                    Print output as Ansible dynamic inventory format.
@@ -310,8 +310,3 @@ elif args.ssh:
         print "%sHostname %s" % (indent_space, groups[group][server]["Hostname"])
         print "%sPort %s" % (indent_space, groups[group][server]["Port"])
         print "%sUser %s\n" % (indent_space, groups[group][server]["User"])
-
-# If there are no options provided.
-else:
-    parser.print_help()
-    sys.exit(1)
