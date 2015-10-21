@@ -3,6 +3,7 @@ Opsview external Ansible inventory script
 
  DESCRIPTION:
 --------------
+
     Python script retrieves servers list and ssh ports from Opsview vis APIs, and it supports 3 kinds of output formats:
       1. Ansible dynamic inventory (http://docs.ansible.com/ansible/intro_dynamic_inventory.html).
       2. OpenSSH config file (~/.ssh/config).
@@ -10,6 +11,7 @@ Opsview external Ansible inventory script
 
  NOTES:
 --------------
+
     1. You can pass arguments to this script or edit defaults values directly in it (may use ini file later),
        but if you are going to use it with Ansible, you have to edit defaults values, because Ansible
        pass two arguments only to inventory script which are "--list" or "--host".
@@ -25,6 +27,7 @@ Opsview external Ansible inventory script
 
  SYNTAX:
 --------------
+
 ```
     usage: opsview-ansible-inventory.py [-h]
                                         [--template-id TEMPLATE_ID]
@@ -55,8 +58,10 @@ Opsview external Ansible inventory script
 
  BY:
 --------------
-    Ahmed M. AbouZaid (http://tech.aabouzaid.com/) - Under GPL v2.0 or later.
+
+    Ahmed M. AbouZaid [http://tech.aabouzaid.com/](http://tech.aabouzaid.com/) - Under GPL v2.0 or later.
 
  TODO:
 --------------
+
     Adding more details in documentation, rewrite some parts, make some enhancements and classes.
