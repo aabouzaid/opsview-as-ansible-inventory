@@ -20,6 +20,21 @@ But I need a reliable way to get these data, I want the solution has the followi
 *  Don't make a lot of load on server, and don't make many huge queries! Think in terms of lots of servers on your monitoring server.
 * Can be selective, so I have control over servers, for example some devices working through SNMP not SSH like most of routers and switches.
 
+
+Approach.
+--------------
+As mentioned before, I just want a one place has all servers information which are:
+* Server Group.
+* Server Name.
+* IP/Hostname.
+* SSH port.
+
+But I need a reliable way to get these data, I want the solution has the following:
+* Work remotely, that's why I preferred APIs in the first place.
+* Don't make a lot of load on server, and don't make many huge queries! Think in terms of lots of servers on your monitoring server.
+* Can be selective, so I have control over servers, for example some devices working through SNMP not SSH like most of routers and switches.
+
+
 Requirements.
 --------------
 I tried to make it simple and generalize the solution, reduced number of dependences, and use default settings as possible, also minimize modifications and pre-configuration.
@@ -32,7 +47,7 @@ So, what do you need to use this script with Opsview? (I will assume you are fam
 * An Opsview user with Administrator privileges.
 
 
-Prerequisites.
+Pre-configuration.
 --------------
 After this long introduction, let's go ahead and make some configuration in Opsview for the script.
 
@@ -44,7 +59,7 @@ Settings > Basic > Host Template > Create new Host Template
 -
 
 Just hover the mouse over Template name and you will see the ID:
-> https://YOUR_OPSVIEW_URL/admin/hosttemplate/edit/71
+> https://YOUR_OPSVIEW_URL/admin/hosttemplate/edit/**71**
 
 * Second step, create a dummy ssh check, which is just a bash script prints any arguments passed to it. Unlike "SSH" check, "SSH-Non-Active" is not a default check, and you need to add it to your Opsview.
     Connect to Opsview server though SSH, and create "check_ssh_dummy" file with following commands:
@@ -66,7 +81,7 @@ chmod ug+x /usr/local/nagios/libexec/check_ssh_dummy
 Settings > Advanced > Service Checks > Create new Service Check
 ```
 
-> As you can see here, you actually can add this check to multiple templates, so if you have many servers with different ssh ports, you actually can set the port to bunch of server with few clicks, or set the port individually for any server (That's why I did choose make a new check not using attribute, which is hard to edit it with massive servers).
+** As you can see here, you actually can add this check to multiple templates, so if you have many servers with different ssh ports, you actually can set the port to bunch of server with few clicks, or set the port individually for any server (That's why I did choose make a new check not using attribute, which is hard to edit it with massive servers). **
 
 * Create a new Role (Opsview user) with Administrator privileges:
 ```
@@ -125,7 +140,7 @@ Output example.
 --------------
 I will assume you already edited the values inside the script, and just need to select output format.
 
-Ansible dynamic inventory (--ansible or --list):
+**Ansible dynamic inventory (--ansible or --list):**
 > ./opsview-ansible-inventory.py --ansible
 
 ```
@@ -169,7 +184,7 @@ Ansible dynamic inventory (--ansible or --list):
 }
 ```
 
-SSH (--ssh):
+**SSH (--ssh):**
 > ./opsview-ansible-inventory.py --ssh
 
 ```
@@ -200,7 +215,7 @@ Host Server4
   User root
 ```
 
-Pure JSON (--json):
+**Pure JSON (--json):**
 > ./opsview-ansible-inventory.py --json
 
 ```
