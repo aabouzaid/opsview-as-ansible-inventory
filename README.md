@@ -26,7 +26,7 @@ Python script retrieves servers list and ssh ports from Opsview vis APIs, and it
 
 Why?
 --------------
-I needed to one place has all servers information! but I didn't find anything simple and modern for Ansible except Ansible Tower, which is great but too advanced and more than is required. Eventually I found we already almost add all servers to monitoring server (mostly based on Nagios either Icinga or Opsview). I didn't like idea of getting data from configuration or database directly, so I decided to make it with APIs.
+I needed to one place has all servers information, but I didn't find anything simple and modern for [Ansible](http://ansible.com/) except Ansible Tower, which is great but too advanced and more than is required. Eventually I found we already almost add all servers to monitoring server (mostly based on Nagios either [Icinga](https://www.icinga.org/) or [Opsview](http://opsview.com/)). I didn't like idea of getting data from configuration or database directly, so I decided to make it with APIs.
 
 But I need a reliable way to get these data, I want the solution has the following:
 * Work remotely, that's why I preferred APIs in the first place.
