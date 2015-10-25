@@ -1,6 +1,19 @@
 Opsview external Ansible inventory script
 =========================================
 
+ToC
+--------------
+  * [Description.](#description)
+  * [Why?](#why)
+  * [Approach.](#approach)
+  * [Requirements.](#requirements)
+  * [Pre-configuration.](#pre-configuration)
+  * [How it works?](#how-it-works)
+  * [Syntax.](#syntax)
+  * [Output example.](#output-example)
+  * [Version.](#version)
+  * [By.](#by)
+  * [To-do.](#to-do)
 
 Description.
 --------------
