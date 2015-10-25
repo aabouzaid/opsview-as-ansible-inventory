@@ -113,7 +113,7 @@ You can pass arguments to this script or edit defaults values directly in it (ma
 You need at least one of 3 arguments: "--json", "--ssh", or "--list" (or the human readable argument --ansible), all other variables stored in the script.
 
 ```
-        usage: opsview-ansible-inventory.py [-h]
+    usage: opsview-ansible-inventory.py [-h]
                                         [--template-id TEMPLATE_ID]
                                         [--active-check-name ACTIVE_CHECK_NAME]
                                         [--passive-check-name PASSIVE_CHECK_NAME]
