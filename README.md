@@ -22,7 +22,8 @@ Python script retrieves servers list and ssh ports from Opsview vis APIs, and it
   2. OpenSSH config file ("~/.ssh/config").
   3. Pure JSON for any other purposes.
 
--
+For more information you can check this post:<br />
+http://tech.aabouzaid.com/2015/10/opsview-as-dynamic-inventory-for-ansible-python.html
 
 Why?
 --------------
