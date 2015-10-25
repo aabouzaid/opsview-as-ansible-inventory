@@ -11,18 +11,19 @@ Opsview external Ansible inventory script
       3. Pure JSON for any other purposes.
 
  NOTES:
-    1. You can pass arguments to this script or edit defaults values directly in it (may use ini file later),
-       but if you are going to use it with Ansible, you have to edit defaults values, because Ansible
-       pass two arguments only to inventory script which are "--list" or "--host".
-    2. You have to make "Host Template" contains all servers in your Opsview, and get its "ID" (that appears in template URL).
-    3. By default this script depends two Opsview "Service Checks" which are "SSH" and "SSH-Non-Active".
-    4. Unlike "SSH" check, "SSH-Non-Active" is not a default check, and you need to add it to your Opsview,
-       see the documentation of this script and how this dummy check works.
-    5. Default output for this script is SSH config file syntax.
+    1. To using and and requirements, and pre-configuration please check the documentation of the script at its Github repository:
+       https://github.com/AAbouZaid/opsview-as-ansible-inventory
+    2. You can pass arguments to this script or edit defaults values directly in it (may use ini file later),
+       but if you are going to use it Ansible dynamic inventory, you have to edit defaults values,
+       because Ansible passes two arguments only to inventory script which are "--list" or "--host".
+    3. You have to make "Host Template" contains all servers in your Opsview, and get its "ID" (that appears in template URL).
+    4. By default this script depends two Opsview "Service Checks" which are "SSH" and "SSH-Non-Active".
+    5. Unlike "SSH" check, "SSH-Non-Active" is not a default check, and you need to add it to your Opsview,
+       see script documentation to see how it works.
     6. This script tested with Opsview Core 3.20131016.0.
+    7. For more information about Opsview APIs please check:
+       https://docs.opsview.com/doku.php?id=opsview-core:restapi
 
-    For more information about Opsview APIs please check:
-      - https://docs.opsview.com/doku.php?id=opsview-core:restapi
 
  SYNTAX:
     usage: opsview-ansible-inventory.py [-h]
@@ -44,7 +45,7 @@ Opsview external Ansible inventory script
       --user USER               Name of SSH user that will be printed as output. Default is "root".
       --json                    Print output as JSON format.
       --ssh                     Print output as OpenSSH config file format.
-      --list                    Print output as Ansible dynamic inventory format.
+      --ansible, --list         Print output as Ansible dynamic inventory format.
       --host HOST               Ansible option to get information for specific host.
 
  VERSION:
@@ -67,17 +68,18 @@ import argparse
 #-----------------------------------
 # Default values.
 Defaults = {
-    # Opsview URL and Role (Opsview user). Security level required for user is "Administrator".
-    "Opsview URL": "https://YOUR_OPSVIEW_URL",
-    "Opsview User": "admin",
-    "Opsview Password": "initial",
+    # Opsview URL, Role (Opsview user), and its Password.
+    # Security level required for user is "Administrator".
+    "Opsview URL": "",
+    "Opsview User": "",
+    "Opsview Password": "",
 
     # SSH user that will be printed.
     "SSH User": "root",
 
     # The ID of template that has all servers in Opsview.
     # You need to find ID number in your Opsview.
-    "Template ID": "1",
+    "Template ID": "",
 
     # Name of real SSH check.
     "Active check name": "SSH",
@@ -96,21 +98,26 @@ parser.add_argument("--passive-check-name", help="Set passive \"Service Check\" 
 parser.add_argument("--user", help="SSH user. Default is \"root\".")
 parser.add_argument("--json", help="Print output as JSON format.", action="store_true")
 parser.add_argument("--ssh",  help="Print output as OpenSSH config file format.", action="store_true")
-parser.add_argument("--list", help="Print output as Ansible dynamic inventory syntax.", action="store_true")
+parser.add_argument("--list", "--ansible", help="Print output as Ansible dynamic inventory syntax.", action="store_true")
 parser.add_argument("--host", help="Ansible option to get information for specific host.")
 args = parser.parse_args()
 
+# Check if default values is provided.
+if not Defaults["Opsview URL"] or not Defaults["Opsview User"] or not Defaults["Opsview Password"]:
+    print "You have to edit default values inside th script."
 
 #-----------------------------------
 # Check variables.
 
 # Check if no arguments provided.
-if args.ssh == args.json == args.list == None:
+if args.json == args.ssh == args.list == False:
     parser.print_help()
     sys.exit(1)
 
 # The Host Template that has all servers in Opsview, you have to check the id in your Opsview.
-if args.template_id:
+if not args.template_id and not Defaults["Template ID"]:
+    print "You have to edit default values inside th script or use --template-id [ID]."
+elif args.template_id:
     host_template_id = args.template_id
 else:
     host_template_id = Defaults["Template ID"]
@@ -220,7 +227,7 @@ for server in servers_list:
     # Set main variables for every host in list like Group name, Host, Hostname, Port, and User.
     group_name = host = hostname = port = ""
     group_name = server_json_data["object"]["hostgroup"]["name"]
-    host = server_json_data["object"]["name"]
+    host = server_json_data["object"]["name"].lower()
     hostname = server_json_data["object"]["ip"]
 
     # We need to use "status" section to get SSH port, which is not in "config" secion.
