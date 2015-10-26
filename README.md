@@ -7,7 +7,7 @@ ToC
   * [Why?](#why)
   * [Approach.](#approach)
   * [Requirements.](#requirements)
-  * [Pre-configuration.](#pre-configuration)
+  * [Getting started.](#getting-started)
   * [How it works?](#how-it-works)
   * [Syntax.](#syntax)
   * [Output example.](#output-example)
@@ -63,7 +63,19 @@ So, what do you need to use this script with Opsview? (I will assume you are fam
 * An Opsview user with Administrator privileges.
 
 
-Pre-configuration.
+How it works?
+--------------
+Once you made the necessary dependences, here is simply how this script work:
+* Call Opsview API to get content of the "Host Template".
+* Store content of "Host Template" which are server name and server URL in Opsview.
+* Query for every URL in the list to get "Server Group" and "IP/Hostname".
+* Make a query for active SSH check, and if it return ssh port number it will stop here.
+* If active check didn't return ssh port number, then it will check passive check which always will return a number.
+
+Now we have all the data we need which are again: Server Group, Server Name, IP/Hostname, and SSH port. We need just format it in one of 3 formats: OpenSSH config, Anisble JSON, or pure JSON. 
+
+
+Getting started.
 --------------
 After this long introduction, let's go ahead and make some configuration in Opsview for the script.
 
@@ -107,19 +119,6 @@ Settings > Basic > Contacts > Create new Contact
 -
 
 Don't forget to reload Opsview to read new configuration. We almost done and ready to use the script now! But let's take a look on how it actually works?!
-
-
-How it works?
---------------
-Once you made the necessary dependences, here is simply how this script work:
-* Call Opsview API to get content of the "Host Template".
-* Store content of "Host Template" which are server name and server URL in Opsview.
-* Query for every URL in the list to get "Server Group" and "IP/Hostname".
-* Make a query for active SSH check, and if it return ssh port number it will stop here.
-* If active check didn't return ssh port number, then it will check passive check which always will return a number.
-
-Now we have all the data we need which are again: Server Group, Server Name, IP/Hostname, and SSH port. We need just format it in one of 3 formats: OpenSSH config, Anisble JSON, or pure JSON. 
-
 
 
 Syntax.
