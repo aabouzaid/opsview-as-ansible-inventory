@@ -17,7 +17,7 @@ ToC
 
 Description.
 --------------
-Python script retrieves servers list and ssh ports from Opsview vis APIs, and it supports 3 kinds of output formats:
+Python script retrieves servers list and ssh ports from Opsview via APIs, and it supports 3 kinds of output formats:
   1. Ansible [dynamic inventory](http://docs.ansible.com/ansible/intro_dynamic_inventory.html).
   2. OpenSSH config file ("~/.ssh/config").
   3. Pure JSON for any other purposes.
