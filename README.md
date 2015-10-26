@@ -37,7 +37,9 @@ But I need a reliable way to get these data, I want the solution has the followi
 
 Approach.
 --------------
-As mentioned before, I just want a one place has all servers information which are:
+In fact, you can easily get a just list of servers from Opsview with minimum work needed, but as mentioned before, I just want one place has all servers with SSH port (**thus most of extra work will be to get SSH port!**).
+
+So the information I need is: 
 * Server Group.
 * Server Name.
 * IP/Hostname.
@@ -155,7 +157,7 @@ Output example.
 I will assume you already edited the values inside the script, and just need to select output format.
 
 **Ansible dynamic inventory (--ansible or --list):**
-> ./opsview-ansible-inventory.py --ansible
+> ./opsview-ansible-inventory.py --ansible --user xuser
 
 ```
 {
@@ -176,22 +178,22 @@ I will assume you already edited the values inside the script, and just need to 
             "Server1": {
                 "Hostname": "10.0.0.1", 
                 "Port": "22", 
-                "User": "root"
+                "User": "xuser"
             }, 
             "Server2": {
                 "Hostname": "10.0.0.2", 
                 "Port": "22", 
-                "User": "root"
+                "User": "xuser"
             }, 
             "Server3": {
                 "Hostname": "10.0.0.3", 
                 "Port": "22", 
-                "User": "root"
+                "User": "xuser"
             }, 
             "Server4": {
                 "Hostname": "10.0.0.4", 
                 "Port": "22", 
-                "User": "root"
+                "User": "xuser"
             }
         }
     }
@@ -199,7 +201,7 @@ I will assume you already edited the values inside the script, and just need to 
 ```
 
 **SSH (--ssh):**
-> ./opsview-ansible-inventory.py --ssh
+> ./opsview-ansible-inventory.py --ssh --user xuser
 
 ```
 ##############################
@@ -208,12 +210,12 @@ I will assume you already edited the values inside the script, and just need to 
 Host Server1
   Hostname 10.0.0.1
   Port 22
-  User root
+  User xuser
 
 Host Server2
   Hostname 10.0.0.2
   Port 22
-  User root
+  User xuser
 
 ##############################
 # Groupname Group2
@@ -221,16 +223,16 @@ Host Server2
 Host Server3
   Hostname 10.0.0.3
   Port 22
-  User root
+  User xuser
 
 Host Server4
   Hostname 10.0.0.4
   Port 22
-  User root
+  User xuser
 ```
 
 **Pure JSON (--json):**
-> ./opsview-ansible-inventory.py --json
+> ./opsview-ansible-inventory.py --json --user xuser
 
 ```
 {
@@ -238,24 +240,24 @@ Host Server4
         "Server1": {
             "Hostname": "10.0.0.1", 
             "Port": "22", 
-            "User": "root"
+            "User": "xuser"
         }, 
         "Server2": {
             "Hostname": "10.0.0.2", 
             "Port": "22", 
-            "User": "root"
+            "User": "xuser"
         }
     }, 
     "Group2": {
         "Server3": {
             "Hostname": "10.0.0.3", 
             "Port": "22", 
-            "User": "root"
+            "User": "xuser"
         }, 
         "Server4": {
             "Hostname": "10.0.0.4", 
             "Port": "22", 
-            "User": "root"
+            "User": "xuser"
         }
     }
 }
