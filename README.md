@@ -151,7 +151,7 @@ Settings > Basic > Contacts > Create new Contact
 
 Syntax.
 --------------
-You can pass some arguments to this script or edit defaults values directly inside the script OR use ini file, but if you are going to use it with Ansible, you have to edit defaults values inside the script OR using ini file, because Ansible pass two arguments only to inventory script which are "--list" or "--host".
+You can pass some arguments to this script or edit defaults values directly inside the script OR use ini file, but if you are going to use it with Ansible, you have to set the defaults values, because Ansible pass two arguments only to inventory script which are "--list" or "--host".
 
 You need at least one of 3 arguments: "--json", "--ssh", or "--list" (or the human readable argument --ansible), all other variables stored in the script.
 
