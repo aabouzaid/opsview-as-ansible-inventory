@@ -7,13 +7,16 @@ ToC
   * [Why?](#why)
   * [Approach.](#approach)
   * [Requirements.](#requirements)
-  * [Getting started.](#getting-started)
   * [How it works?](#how-it-works)
+  * [Configuration.](#configuration)
   * [Syntax.](#syntax)
   * [Output example.](#output-example)
-  * [Version.](#version)
-  * [By.](#by)
+  * [About.](#about)
   * [To-do.](#to-do)
+
+<p align="center">
+<img src="http://4.bp.blogspot.com/-QcmQyNjPXmk/Vi08WC6heuI/AAAAAAAACIc/ofSuOGGhj-M/s1600/Ansible_Ospview_OpenSSH_JSON_logos.png" width="320">
+</p>
 
 Description.
 --------------
@@ -75,7 +78,7 @@ Once you made the necessary dependences, here is simply how this script work:
 Now we have all the data we need which are again: Server Group, Server Name, IP/Hostname, and SSH port. We need just format it in one of 3 formats: OpenSSH config, Anisble JSON, or pure JSON. 
 
 
-Getting started.
+Configuration.
 --------------
 After this long introduction, let's go ahead and make some configuration in Opsview for the script.
 
@@ -83,8 +86,9 @@ After this long introduction, let's go ahead and make some configuration in Opsv
 ```
 Settings > Basic > Host Template > Create new Host Template
 ```
-
--
+<p align="center">
+<img src="http://2.bp.blogspot.com/-6RQCBZylPYQ/Vi3fNdduhpI/AAAAAAAACIw/SQbCbQMNbik/s1600/Add_dummy_SSH_check.png" width="320">
+</p>
 
 Just hover the mouse over Template name and you will see the ID:
 > https://YOUR_OPSVIEW_URL/admin/hosttemplate/edit/**71**
@@ -109,21 +113,45 @@ chmod ug+x /usr/local/nagios/libexec/check_ssh_dummy
 Settings > Advanced > Service Checks > Create new Service Check
 ```
 
+<p align="center">
+<img src="http://4.bp.blogspot.com/-EIpwN68MxRE/Viundnh306I/AAAAAAAACH4/NUXuGqdV5sk/s1600/AllServers_Template.png" width="320">
+</p>
+
 ** As you can see here, you actually can add this check to multiple templates, so if you have many servers with different ssh ports, you actually can set the port to bunch of server with few clicks, or set the port individually for any server (That's why I did choose make a new check not using attribute, which is hard to edit it with massive servers). **
 
-* Create a new Role (Opsview user) with Administrator privileges:
+* Create a new Role (Opsview user) with Administrator privileges:<br />
+  Don't forget to reload Opsview to read new configuration. We almost done and ready to use the script now! But let's take a look on how it actually works?!
 ```
 Settings > Basic > Contacts > Create new Contact
 ```
 
--
+* Now, you have all required configuration,  all what you need is just edit those configuration inside the script or inside the ini file. You have following values to edit:
+```
+[Defaults]
+; Opsview URL, Role (Opsview user), and its Password.
+; Security level required for user is "Administrator".
+"Opsview URL": ""
+"Opsview User": ""
+"Opsview Password": ""
 
-Don't forget to reload Opsview to read new configuration. We almost done and ready to use the script now! But let's take a look on how it actually works?!
+; SSH user that will be printed.
+"SSH User": "root"
+
+; The ID of template that has all servers in Opsview.
+; You need to find ID number in your Opsview.
+"Template ID": ""
+
+; Name of real SSH check.
+"Active check name": "SSH"
+
+; Name of dummy SSH check.
+"Passive check name": "SSH-Non-Active"
+```
 
 
 Syntax.
 --------------
-You can pass arguments to this script or edit defaults values directly in it (may use ini file later), but if you are going to use it with Ansible, you have to edit defaults values inside the script, because Ansible pass two arguments only to inventory script which are "--list" or "--host".
+You can pass some arguments to this script or edit defaults values directly inside the script OR use ini file, but if you are going to use it with Ansible, you have to edit defaults values inside the script OR using ini file, because Ansible pass two arguments only to inventory script which are "--list" or "--host".
 
 You need at least one of 3 arguments: "--json", "--ssh", or "--list" (or the human readable argument --ansible), all other variables stored in the script.
 
@@ -262,13 +290,13 @@ Host Server4
 }
 ```
 
-Version.
---------------
-v0.1 - October 2015.
 
-By.
+About.
 --------------
-Ahmed M. AbouZaid [http://tech.aabouzaid.com/](http://tech.aabouzaid.com/) - Under GPL v2.0 or later.
+* **By:** Ahmed M. AbouZaid [http://tech.aabouzaid.com/](http://tech.aabouzaid.com/).
+* **Version:** v0.1 - October 2015.
+* **License:**  GPL v2.0 or later.
+
 
 To-do.
 --------------

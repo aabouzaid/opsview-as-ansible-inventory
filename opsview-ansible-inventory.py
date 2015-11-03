@@ -88,6 +88,32 @@ Defaults = {
     "Passive check name": "SSH-Non-Active"
 }
 
+# Use ini file -if you want!- instead hardcoded values inside the script.
+ini_file = "./opsview-ansible-inventory.ini"
+# If there is any empty value in Defaults dictionary inside the script, it will use .ini file.
+ini_config = '' in Defaults.values()
+
+if ini_config == True:
+    # Check if ini file exists.
+    import os
+    if os.path.isfile(ini_file) is False:
+        print "Please make sure %s exists in the script's directory." % (ini_file)
+        sys.exit(1)
+
+    # Import ConfigParser module and use .ini file.
+    import ConfigParser
+    config = ConfigParser.ConfigParser()
+    # To make ConfigParser case sensitive. 
+    config.optionxform = str
+    config.read(ini_file)
+    # Use configuration inside .ini file. 
+    Defaults = dict(config.items('Defaults'))
+
+# Check if default values are provided.
+if '' in Defaults.values():
+    print "You have to edit default values (in the ini file or inside the script)."
+    sys.exit(1)
+
 
 #-----------------------------------
 # Script options.
@@ -102,9 +128,6 @@ parser.add_argument("--list", "--ansible", help="Print output as Ansible dynamic
 parser.add_argument("--host", help="Ansible option to get information for specific host.")
 args = parser.parse_args()
 
-# Check if default values is provided.
-if not Defaults["Opsview URL"] or not Defaults["Opsview User"] or not Defaults["Opsview Password"]:
-    print "You have to edit default values inside th script."
 
 #-----------------------------------
 # Check variables.
