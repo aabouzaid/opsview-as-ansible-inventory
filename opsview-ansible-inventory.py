@@ -46,6 +46,7 @@ Opsview external Ansible inventory script
       --json                    Print output as JSON format.
       --ssh                     Print output as OpenSSH config file format.
       --ansible, --list         Print output as Ansible dynamic inventory format.
+      --ansible-static          Print output as Ansible static inventory format.
       --host HOST               Ansible option to get information for specific host.
 
  VERSION:
