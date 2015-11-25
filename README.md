@@ -176,6 +176,7 @@ You need at least one of 3 arguments: "--json", "--ssh", or "--list" (or the hum
       --json                    Print output as JSON format.
       --ssh                     Print output as OpenSSH config file format.
       --ansible, --list         Print output as Ansible dynamic inventory format.
+      --ansible-static          Print output as Ansible static inventory format.
       --host HOST               Ansible option to get information for specific host.
 ```
 
@@ -225,6 +226,19 @@ I will assume you already edited the values inside the script, and just need to 
         }
     }
 }
+```
+
+**Ansible static (--ansible-static):**
+> ./opsview-ansible-inventory.py --ansible-static --user xuser
+
+```
+[Group1]
+Server1 ansible_ssh_host=10.0.0.1 ansible_ssh_port=22 ansible_ssh_user=xuser
+Server2 ansible_ssh_host=10.0.0.2 ansible_ssh_port=22 ansible_ssh_user=xuser
+
+[Group2]
+Server3 ansible_ssh_host=10.0.0.3 ansible_ssh_port=22 ansible_ssh_user=xuser
+Server4 ansible_ssh_host=10.0.0.4 ansible_ssh_port=22 ansible_ssh_user=xuser
 ```
 
 **SSH (--ssh):**
