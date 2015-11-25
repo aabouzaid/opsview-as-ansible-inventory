@@ -125,6 +125,7 @@ parser.add_argument("--user", help="SSH user. Default is \"root\".")
 parser.add_argument("--json", help="Print output as JSON format.", action="store_true")
 parser.add_argument("--ssh",  help="Print output as OpenSSH config file format.", action="store_true")
 parser.add_argument("--list", "--ansible", help="Print output as Ansible dynamic inventory syntax.", action="store_true")
+parser.add_argument("--ansible-static", help="Print output as Ansible static inventory syntax.", action="store_true")
 parser.add_argument("--host", help="Ansible option to get information for specific host.")
 args = parser.parse_args()
 
@@ -133,7 +134,7 @@ args = parser.parse_args()
 # Check variables.
 
 # Check if no arguments provided.
-if args.json == args.ssh == args.list == False:
+if args.json == args.ssh == args.list == args.ansible_static == False:
     parser.print_help()
     sys.exit(1)
 
@@ -300,7 +301,7 @@ for server in servers_list:
             groups[group_name]["hosts"].append(host)
             groups["_meta"]["hostvars"].update({host: hostname_port_user()})
 
-    # 
+    # Ansible single host format.
     elif args.host:
         groups[group_name] = {"hosts": [host]}
         groups["_meta"] = {"hostvars": {host: hostname_port_user()}}
@@ -311,10 +312,10 @@ for server in servers_list:
           # Add new group to groups dict.
           groups[group_name] = {}
           # Add the host to its group.
-          groups[group_name].update({ host: hostname_port_user()})
+          groups[group_name].update({host: hostname_port_user()})
         else:
           # Add the host to its group.
-          groups[group_name].update({ host: hostname_port_user()})
+          groups[group_name].update({host: hostname_port_user()})
 
 
 #-----------------------------------
@@ -327,6 +328,18 @@ if args.json is True:
 # Ansible dynamic inventory output.
 elif args.list is True or args.host:
     print json.dumps(groups, sort_keys=True, indent=4) 
+
+# Ansible static inventory output.
+elif args.ansible_static:
+    for group in groups.keys():
+      print "\n[" + group.lower() + "]"
+
+      for server in groups[group]:
+        hostname = port = user = ""
+        hostname = groups[group][server]["Hostname"]
+        port = groups[group][server]["Port"]
+        user = groups[group][server]["User"]
+        print "%s ansible_ssh_host=%s ansible_ssh_port=%s ansible_ssh_user=%s" % (server, hostname, port, user)
 
 # SSH Config syntax output.
 elif args.ssh:
