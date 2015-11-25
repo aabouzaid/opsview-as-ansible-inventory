@@ -22,8 +22,9 @@ Description.
 --------------
 Python script retrieves servers list and ssh ports from Opsview via APIs, and it supports 3 kinds of output formats:
   1. Ansible [dynamic inventory](http://docs.ansible.com/ansible/intro_dynamic_inventory.html).
-  2. OpenSSH config file ("~/.ssh/config").
-  3. Pure JSON for any other purposes.
+  2. Ansible [static inventory](http://docs.ansible.com/ansible/intro_inventory.html) (INI-like).
+  3. OpenSSH config file ("~/.ssh/config").
+  4. Pure JSON for any other purposes.
 
 For more information you can check this post:<br />
 http://tech.aabouzaid.com/2015/10/opsview-as-dynamic-inventory-for-ansible-python.html
@@ -40,7 +41,7 @@ But I need a reliable way to get these data, I want the solution has the followi
 
 Approach.
 --------------
-In fact, you can easily get a just list of servers from Opsview with minimum work needed, but as mentioned before, I just want one place has all servers with SSH port (**thus most of extra work will be to get SSH port!**).
+In fact, you can easily get a just list of servers from Opsview with minimum work needed, but as mentioned before, I just want one place has all servers with SSH port (**thus most of extra work just to get SSH port!**).
 
 So the information I need is: 
 * Server Group.
@@ -75,7 +76,7 @@ Once you made the necessary dependences, here is simply how this script work:
 * Make a query for active SSH check, and if it return ssh port number it will stop here.
 * If active check didn't return ssh port number, then it will check passive check which always will return a number.
 
-Now we have all the data we need which are again: Server Group, Server Name, IP/Hostname, and SSH port. We need just format it in one of 3 formats: OpenSSH config, Anisble JSON, or pure JSON. 
+Now we have all the data we need which are again: Server Group, Server Name, IP/Hostname, and SSH port. We need just format it in one of 4 formats: OpenSSH config, Anisble static/INI-like, Anisble JSON, or pure JSON. 
 
 
 Configuration.
