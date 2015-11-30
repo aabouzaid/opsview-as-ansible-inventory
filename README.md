@@ -309,7 +309,7 @@ Host Server4
 About.
 --------------
 * **By:** Ahmed M. AbouZaid [http://tech.aabouzaid.com/](http://tech.aabouzaid.com/).
-* **Version:** v0.1 - October 2015.
+* **Version:** v0.2 - November 2015.
 * **License:**  GPL v2.0 or later.
 
 
